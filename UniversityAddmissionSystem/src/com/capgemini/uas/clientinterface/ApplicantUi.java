@@ -18,11 +18,6 @@ public class ApplicantUi {
 		LocalDate dateOfBirth = null,dateOfInterview=null;
 		int marksObtained,choice;
 		
-		/*try(ITruckService service = new TruckService();
-				Scanner sc = new Scanner(System.in))		//try with resource
-		{
-			
-*/		
 		try{	
 			IApplicantService appService = new ApplicantServiceImpl();
 			Scanner sc = new Scanner(System.in);
@@ -84,12 +79,7 @@ public class ApplicantUi {
 		String emailId = sc.next();
 		System.out.println("Please see below programs");
 		
-			try {
-				programScheduled = appService.showProgramScheduled();
-			} catch (UniversityException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		programScheduled = appService.showProgramScheduled();
 	    for (ProgramScheduledBean pBean : programScheduled) {
 			System.out.println(pBean);
 		}

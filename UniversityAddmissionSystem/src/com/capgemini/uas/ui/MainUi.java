@@ -3,6 +3,7 @@ package com.capgemini.uas.ui;
 import java.util.Scanner;
 
 import com.capgemini.uas.clientinterface.ApplicantUi;
+import com.capgemini.uas.clientinterface.MacUi;
 
 public class MainUi {
 
@@ -15,7 +16,7 @@ public class MainUi {
 				System.out.println("\n*************University Addmission System *************");
 				System.out.println("Choose an operation");
 				System.out.println("1. Enter as a Admin");
-				System.out.println("2. Enetr as a MAC");
+				System.out.println("2. Enter as a MAC");
 				System.out.println("3. Enter as a Applicant");
 				System.out.println("4. Exit");
 				System.out.println("******************************");
@@ -28,7 +29,7 @@ public class MainUi {
 				{
 				
 				
-					case 1 :// Add Customer Information
+					case 1 :
 						{
 							int patientId;
 							System.out.println("Enter User Name");
@@ -39,11 +40,13 @@ public class MainUi {
 							break;
 						}
 					case 2: { 
-						int patientId;
+						/*int patientId;
 						System.out.println("Enter User Name");
 						loginId = sc.next();
 						System.out.println("Enter Password");
-						password = sc.next();
+						password = sc.next();*/
+						System.out.println("Welcome MAC to University Addmission System");
+						MacUi.main(args);
 						}
 						break;
 					case 3: { 

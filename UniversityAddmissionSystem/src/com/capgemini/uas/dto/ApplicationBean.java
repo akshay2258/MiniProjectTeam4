@@ -19,6 +19,25 @@ public class ApplicationBean {
 	
 	
 	
+	public ApplicationBean(int applicationId, String fullName,
+			LocalDate dateOfBirth, String highestQualification,
+			int marksObtained, String goals, String emailId,
+			String scheduledProgramId, String status, LocalDate dateOfInterview) {
+		super();
+		this.applicationId = applicationId;
+		this.fullName = fullName;
+		this.dateOfBirth = dateOfBirth;
+		this.highestQualification = highestQualification;
+		this.marksObtained = marksObtained;
+		this.goals = goals;
+		this.emailId = emailId;
+		this.scheduledProgramId = scheduledProgramId;
+		this.status = status;
+		this.dateOfInterview = dateOfInterview;
+	}
+
+
+
 	public ApplicationBean(String fullName, LocalDate dateOfBirth,
 			String highestQualification, int marksObtained, String goals,
 			String emailId, String scheduledProgramId, String status,

@@ -26,7 +26,7 @@ public class ApplicantDaoImpl implements IApplicantDao {
 		connect = util.getConnection();
 		ResultSet rs = null;
 		Statement stmt = null;
-		List<ProgramScheduledBean> truckDetails = new ArrayList<ProgramScheduledBean>();
+		List<ProgramScheduledBean> progDetails = new ArrayList<ProgramScheduledBean>();
 		try{
 			stmt = connect.createStatement();
 			rs = stmt.executeQuery(IQueryMapper.LIST_PROGRAM);
@@ -38,7 +38,7 @@ public class ApplicantDaoImpl implements IApplicantDao {
 				Date endDate = rs.getDate(5);
 				int sessionPerWeek = rs.getInt(6);
 				ProgramScheduledBean pb= new ProgramScheduledBean(scheduledProgramId, programName, location, startDate, endDate, sessionPerWeek);
-				truckDetails.add(pb);
+				progDetails.add(pb);
 			}
 		}catch(SQLException e){
 			e.printStackTrace();
@@ -56,7 +56,7 @@ public class ApplicantDaoImpl implements IApplicantDao {
 						"Could not close the connection in showProgramScheduled()");
 			}
 		}
-		return truckDetails;
+		return progDetails;
 	}
 
 	@Override
