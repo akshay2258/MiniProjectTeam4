@@ -40,22 +40,22 @@ public class ApplicantDaoImpl implements IApplicantDao {
 				ProgramScheduledBean pb= new ProgramScheduledBean(scheduledProgramId, programName, location, startDate, endDate, sessionPerWeek);
 				progDetails.add(pb);
 			}
-		}catch(SQLException e){
-			e.printStackTrace();
-			throw new UniversityException("Problem in writing data.",e);
-		} finally {
-			try {
-				if (connect != null) {
-					stmt.close();
-					rs.close();
-					connect.close();
-				}
-			} catch (Exception e) {
+			}catch(SQLException e){
 				e.printStackTrace();
-				throw new UniversityException(
-						"Could not close the connection in showProgramScheduled()");
-			}
-		}
+				throw new UniversityException("Problem in writing data showProgramScheduled",e);
+			} finally {
+					try {
+						if (connect != null) {
+							stmt.close();
+							rs.close();
+							connect.close();
+						}
+						} catch (Exception e) {
+							e.printStackTrace();
+							throw new UniversityException(
+							"Could not close the connection in showProgramScheduled()");
+						}
+					}
 		return progDetails;
 	}
 
@@ -81,21 +81,21 @@ public class ApplicantDaoImpl implements IApplicantDao {
 			Date sqlDoI = Date.valueOf(ab.getDateOfInterview()); //to convert date of birth local date to sql date
 			stmt.setDate(10,sqlDoI);
 			recsAffected= stmt.executeUpdate();
-		}catch(SQLException e){
-			e.printStackTrace();
-			throw new UniversityException("Problem in writing data.",e);
-		}finally {
-			try {
-				if (connect != null) {
-					stmt.close();
-					connect.close();
-				}
-			} catch (Exception e) {
+			}catch(SQLException e){
 				e.printStackTrace();
-				throw new UniversityException(
+				throw new UniversityException("Problem in writing data in addDetail",e);
+			}finally {
+					try {
+						if (connect != null) {
+							stmt.close();
+							connect.close();
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
+						throw new UniversityException(
 						"Could not close the connection in addDetail");
+					}
 			}
-		}
 		return applicationId;
 	}
 
@@ -109,9 +109,9 @@ public class ApplicantDaoImpl implements IApplicantDao {
 		ResultSet res = null;
 		try
 		{
-			 	pstmt= connect.prepareStatement(IQueryMapper.GEN_APPID);
-				res = pstmt.executeQuery();
-				if(res.next())
+			pstmt= connect.prepareStatement(IQueryMapper.GEN_APPID);
+			res = pstmt.executeQuery();
+			if(res.next())
 				{
 					applicationId = res.getInt(1);
 				}
@@ -127,15 +127,15 @@ public class ApplicantDaoImpl implements IApplicantDao {
 					res.close();
 					connect.close();
 				}
-			} catch (Exception e) {
-				e.printStackTrace();
-				throw new UniversityException(
-						"Could not close the connection in getApplicationId()");
+				} catch (Exception e) {
+					e.printStackTrace();
+					throw new UniversityException(
+					"Could not close the connection in getApplicationId()");
+				}
 			}
-		}
 		return applicationId;		
-		
 	}
+	
 	@Override
 	public ApplicationBean showStatus(int applicationId)
 			throws UniversityException {
@@ -145,38 +145,37 @@ public class ApplicantDaoImpl implements IApplicantDao {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		try{
-					stmt = connect.prepareStatement(IQueryMapper.CHECK_STATUS);
-					stmt.setInt(1,applicationId);
-					rs = stmt.executeQuery();
-			while(rs.next()){
-				String fullName = rs.getString(2);
-				LocalDate dateOfBirth = rs.getDate(3).toLocalDate();
-				String highestQualification = rs.getString(4);
-				int marksObtained = rs.getInt(5);
-				String goals = rs.getString(6);
-				String emailId = rs.getString(7);
-				String scheduledProgramId = rs.getString(8);
-				String status = rs.getString(9);
-				LocalDate dateOfInterview = rs.getDate(10).toLocalDate();
-				appBean = new ApplicationBean(fullName, dateOfBirth, highestQualification, marksObtained, goals, emailId, scheduledProgramId, status, dateOfInterview);
-			}
-		}catch(SQLException e){
-			e.printStackTrace();
-			throw new UniversityException("Problem in writing data.",e);
-		}finally {
-			try {
-				if (connect != null) {
-					//System.out.println("hiii");
-					stmt.close();
-					rs.close();
-					connect.close();
+				stmt = connect.prepareStatement(IQueryMapper.CHECK_STATUS);
+				stmt.setInt(1,applicationId);
+				rs = stmt.executeQuery();
+				while(rs.next()){
+					String fullName = rs.getString(2);
+					LocalDate dateOfBirth = rs.getDate(3).toLocalDate();
+					String highestQualification = rs.getString(4);
+					int marksObtained = rs.getInt(5);
+					String goals = rs.getString(6);
+					String emailId = rs.getString(7);
+					String scheduledProgramId = rs.getString(8);
+					String status = rs.getString(9);
+					LocalDate dateOfInterview = rs.getDate(10).toLocalDate();
+					appBean = new ApplicationBean(fullName, dateOfBirth, highestQualification, marksObtained, goals, emailId, scheduledProgramId, status, dateOfInterview);
 				}
-			} catch (Exception e) {
-				e.printStackTrace();
-				throw new UniversityException(
-						"Could not close the connection in showStatus()");
-			}
-		}
+				}catch(SQLException e){
+					e.printStackTrace();
+					throw new UniversityException("Problem in writing data in showStatus",e);
+				}finally {
+					try {
+						if (connect != null) {
+							stmt.close();
+							rs.close();
+							connect.close();
+						}
+						} catch (Exception e) {
+							e.printStackTrace();
+							throw new UniversityException(
+							"Could not close the connection in showStatus()");
+						}
+				}
 		return appBean;
 	}
 }

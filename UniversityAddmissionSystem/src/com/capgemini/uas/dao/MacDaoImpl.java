@@ -5,11 +5,13 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.capgemini.uas.dto.ApplicationBean;
+import com.capgemini.uas.dto.UsersBean;
 import com.capgemini.uas.exception.UniversityException;
 import com.capgemini.uas.util.ConnectionUtil;
 
@@ -55,7 +57,7 @@ public class MacDaoImpl implements IMacDao {
 			} catch (Exception e) {
 				e.printStackTrace();
 				throw new UniversityException(
-						"Could not close the connection in getApplicantsOnSchduledId",e);
+				"Could not close the connection in getApplicantsOnSchduledId",e);
 			}
 		}
 		return applicantDetails;
@@ -88,7 +90,7 @@ public class MacDaoImpl implements IMacDao {
 			}
 		}catch(SQLException e){
 			e.printStackTrace();
-			throw new UniversityException("Problem in writing data. in getApplicantsAfterInterviewOnId",e);
+			throw new UniversityException("Problem in writing data in getApplicantsAfterInterviewOnId",e);
 		} finally {
 			try {
 				if (connect != null) {
@@ -122,7 +124,7 @@ public class MacDaoImpl implements IMacDao {
 				status = rs.getString("status");
 			}*/
 		}catch(SQLException e){
-			throw new UniversityException("Problem in writing data. in updateApplicantStatus",e);
+			throw new UniversityException("Problem in writing data in updateApplicantStatus",e);
 		}finally {
 			try {
 				if (connect != null) {
@@ -152,7 +154,7 @@ public class MacDaoImpl implements IMacDao {
 			stmt.setInt(2,applicationId);
 			recsAffected= stmt.executeUpdate(); 
 		}catch(SQLException e){
-			throw new UniversityException("Problem in writing data. in updateApplicantStatus",e);
+			throw new UniversityException("Problem in writing data in updateApplicantDateOfInterview",e);
 		}finally {
 			try {
 				if (connect != null) {
@@ -162,10 +164,45 @@ public class MacDaoImpl implements IMacDao {
 			} catch (Exception e) {
 				e.printStackTrace();
 				throw new UniversityException(
-						"Could not close the connection in updateApplicantStatus",e);
+						"Could not close the connection in updateApplicantDateOfInterview",e);
 			}
 		}
 		
+	}
+
+	@Override
+	public UsersBean getUserOnId(String loginId) throws UniversityException {
+		UsersBean userBean = null;
+		ConnectionUtil util = new ConnectionUtil();
+		connect = util.getConnection();
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		try{
+				stmt = connect.prepareStatement(IQueryMapper.GET_USER);
+				stmt.setString(1,loginId);
+				rs = stmt.executeQuery();
+				while(rs.next()){
+					String password = rs.getString(2);
+					String role = rs.getString(3);
+					userBean = new UsersBean(loginId, password, role);
+				}
+				}catch(SQLException e){
+					e.printStackTrace();
+					throw new UniversityException("Problem in writing data in getUserOnId",e);
+				}finally {
+					try {
+						if (connect != null) {
+							stmt.close();
+							rs.close();
+							connect.close();
+						}
+						} catch (Exception e) {
+							e.printStackTrace();
+							throw new UniversityException(
+							"Could not close the connection in getUserOnId");
+						}
+				}
+		return userBean;
 	}
 
 }
