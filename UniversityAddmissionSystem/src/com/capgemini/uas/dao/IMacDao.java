@@ -11,6 +11,5 @@ public interface IMacDao {
 	public List<ApplicationBean> getApplicantsOnSchduledId(String scheduledProgramId) throws UniversityException;
 	public List<ApplicationBean> getApplicantsAfterInterviewOnId(String scheduledProgramId) throws UniversityException;
 	public String updateApplicantStatus(int applicationId,String status) throws UniversityException;
-	public void updateApplicantDateOfInterview(int applicationId, LocalDate dateOfInterview) throws UniversityException;
-	public UsersBean getUserOnId(String loginId) throws UniversityException; 
+	public void updateApplicantDateOfInterview(int applicationId, LocalDate dateOfInterview) throws UniversityException; 
 }

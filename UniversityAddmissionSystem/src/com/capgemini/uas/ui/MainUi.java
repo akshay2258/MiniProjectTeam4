@@ -2,21 +2,20 @@ package com.capgemini.uas.ui;
 
 import java.util.Scanner;
 
-import com.capgemini.uas.clientinterface.ApplicantUi;
-import com.capgemini.uas.clientinterface.MacUi;
 import com.capgemini.uas.dto.UsersBean;
 import com.capgemini.uas.exception.UniversityException;
-import com.capgemini.uas.service.IMacService;
-import com.capgemini.uas.service.MacServiceImpl;
+import com.capgemini.uas.service.IUsersService;
+import com.capgemini.uas.service.UsersServiceImpl;
 
 public class MainUi {
 
 	public static void main(String[] args) {
-		int choice;
+		int choice = -1;
 		String loginId, password;
-		boolean flag,flag1,flag2;
-		try {
-			IMacService macService = new MacServiceImpl();
+		boolean flag,flag2;
+			Scanner sc = new Scanner(System.in);
+			IUsersService userService = new UsersServiceImpl();
+			
 			do											//do-while loop
 			{
 				System.out.println("\n*************University Addmission System *************");
@@ -27,43 +26,50 @@ public class MainUi {
 				System.out.println("4. Exit");
 				System.out.println("******************************");
 				System.out.print("\nPlease Enter a Choice : ");
-				Scanner sc = new Scanner(System.in);
-				choice = sc.nextInt();
+				if (sc.hasNextInt()) {
+					choice = sc.nextInt();
+				} else {
+					System.out.println("Please enter a number as in menu");
+					sc.next();
+					continue;
+				}
 				System.out.println("\n******************************");
 				switch(choice)
 				{
-				
-				
 					case 1 :
-						do {
 							System.out.println("Enter User Name");
 							loginId = sc.next();
 							System.out.println("Enter Password");
 							password = sc.next();
 							UsersBean userBeanMain = new UsersBean(loginId, password,"admin");
-							flag1 = macService.checkMacUser(userBeanMain);
-							if(flag1==false)
-								System.out.println("Wrong Crendential!! Not a valid Admin..Please enter correctly");
-							} while (flag1==false);
-						System.out.println("Welcome Admin To University Addmission Portal");
+							try {
+								userService.checkUser(userBeanMain);
+							} catch (UniversityException e) {
+								System.err.println(e.getMessage());
+							}
 						break;
 					case 2:  
-						do {
-							System.out.println("Enter User Name");
-							loginId = sc.next();
-							System.out.println("Enter Password");
-							password = sc.next();
-							UsersBean userBeanMain = new UsersBean(loginId, password,"mac");
-							flag1 = macService.checkMacUser(userBeanMain);
-							if(flag1==false)
-								System.out.println("Wrong Crendential!! Not a valid MAC user..Please enter correctly");
-							} while (flag1==false);
-						System.out.println("Welcome Member of Addmission Commitee To University Addmission Portal");
-						MacUi.main(args);
+						System.out.println("Enter User Name");
+						loginId = sc.next();
+						System.out.println("Enter Password");
+						password = sc.next();
+						UsersBean userBeanMain1 = new UsersBean(loginId, password,"mac");
+						try {
+							userService.checkUser(userBeanMain1);
+							MacConsole mc = new MacConsole(loginId);
+							mc.start();
+						} catch (UniversityException e) {
+							System.err.println(e.getMessage());
+						}
 						break;
 					case 3: { 
 							System.out.println("Welcome Applicant to University Addmission System");
-							ApplicantUi.main(args);
+							ApplicantConsole ac = new ApplicantConsole();
+							try {
+								ac.start();
+							} catch (UniversityException e) {
+								System.out.println(e.getMessage());
+							}
 						break;
 					}
 					case 4: {
@@ -72,9 +78,7 @@ public class MainUi {
 					}
 					} 
 				
-			}while(choice!=5);
-		} catch(UniversityException e) {
-			
-		}
+			}while(choice!=4);
+			sc.close();
 	}
 }

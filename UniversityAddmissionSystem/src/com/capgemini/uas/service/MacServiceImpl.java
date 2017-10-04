@@ -37,21 +37,4 @@ public class MacServiceImpl implements IMacService {
 			throws UniversityException {
 			macDao.updateApplicantDateOfInterview(applicationId, dateOfInterview);
 	}
-	@Override
-	public boolean checkMacUser(UsersBean userBeanMain) throws UniversityException {
-		UsersBean userBeanDao = macDao.getUserOnId(userBeanMain.getLoginId());
-		if (userBeanDao==null)
-			return false;
-		else {
-			if(userBeanDao.getPassword().equals(userBeanMain.getPassword())) {
-				if(userBeanDao.getRole().equals(userBeanMain.getRole()))
-					return true;
-				else
-					return false;
-			}
-			else
-				return false;
-		}
-	}
-
 }
