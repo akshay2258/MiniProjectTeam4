@@ -44,6 +44,8 @@ public class MainUi {
 							UsersBean userBeanMain = new UsersBean(loginId, password,"admin");
 							try {
 								userService.checkUser(userBeanMain);
+								AdminConsole admin=new AdminConsole(loginId);
+								admin.start();
 							} catch (UniversityException e) {
 								System.err.println(e.getMessage());
 							}

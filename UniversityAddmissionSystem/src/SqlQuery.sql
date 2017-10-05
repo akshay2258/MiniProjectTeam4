@@ -6,6 +6,7 @@ duration number,
 degree_certificate_offered varchar2(10)
 );
 
+insert into PROGRAM_OFFERED values('Btech','Computer Science','ssc',4,'true');
 create table program_Scheduled ( 
 Scheduled_program_id varchar2(5) primary key, 
 Program_Name references program_offered(Program_Name), 
@@ -14,6 +15,9 @@ start_date date,
 end_date date, 
 sessions_per_week number
 );
+
+
+insert into PROGRAM_SCHEDULED values('1001','Btech','mumbai','02-FEB-2017','01-FEB-2021',5);
 
 create table applicants( 
 Application_id number primary key,
@@ -35,6 +39,7 @@ Application_id references applicants(Application_id),
 Scheduled_program_id varchar2(5)
 );
 
+drop table users;
 create table users (
 login_id varchar2(5) primary key, 
 password varchar2(10),
@@ -52,6 +57,7 @@ increment by 1;
 create sequence roll_no_seq
 start with 13000
 increment by 1;
+
 
 insert into users values('akp11','akp11','mac');
 insert into users values('akh12','akh12','mac');

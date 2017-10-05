@@ -14,6 +14,7 @@ public interface IQueryMapper {
 	public static final String UPDATE_APPLICANTS_DATE_OF_INTERVIEW="UPDATE applicants SET date_of_interview=? WHERE status='accepted' AND application_id=?";
 
 	// for program_offered table
+	public static final String ADD_PROGRAM="INSERT INTO program_offered values(?,?,?,?,?)";
 	public static final String UPDATE_PROGRAM_OFFERED_DESC="UPDATE program_offered SET description=? WHERE program_name=?";
 	public static final String UPDATE_PROGRAM_OFFERED_APP_ELIG="UPDATE program_offered SET applicant_eligibility=? WHERE program_name=?";
 	public static final String UPDATE_PROGRAM_OFFERED_DUR="UPDATE program_offered SET duration=? WHERE program_name=?";
