@@ -20,7 +20,7 @@ public class ApplicantConsole {
 		boolean flag=true,flag1=true,flag2=true,flag3=true,flag4=true;
 		String fullName,dob,highestQualification;
 		LocalDate dateOfBirth = null,dateOfInterview=null;
-		int marksObtained,choice;
+		int marksObtained,choice,applicationId = 0;
 			
 			appService = new ApplicantServiceImpl();
 			sc = new Scanner(System.in);
@@ -45,28 +45,35 @@ public class ApplicantConsole {
 			}
 			break;
 		case 2:
+			fullName=sc.nextLine();
 		do
 		{
-			System.out.println("Enter Full Name"); 
-			fullName=sc.next();
+			System.out.println("Enter Full Name as per 10th Crtificate"); 
+			fullName=sc.nextLine();
+			flag = ApplicantServiceImpl.validateFullName(fullName);
 			if(flag==false)
-				System.out.println("Name should be entered in proper format");	
+				System.out.println("Name should be entered less than 20 character and first letter is capital");	
 		}while(flag==false);
 		do
 		{
 		System.out.println("Enter Date of Birth");
 		dob = sc.next();
-		DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-		dateOfBirth = LocalDate.parse(dob,format);
+		flag1=ApplicantServiceImpl.validateDateOfBirth(dob);
 		if(flag1==false)
 			System.out.println("Date of Birth should be entered in proper format");
-		}while(flag==false);
 		
+		}while(flag1==false);
+		
+		format = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+		dateOfBirth = LocalDate.parse(dob,format);
 		//Customer Phone Number
 		do
 		{
 			System.out.println("Enter your Highest Quailification : ");
 			highestQualification = sc.next();
+			flag2=ApplicantServiceImpl.validateHighestQualification(highestQualification);
+			if(flag2==false)
+				System.out.println("Length should be less than 10");
 		}while(flag2==false);
 		do
 		{
@@ -76,13 +83,23 @@ public class ApplicantConsole {
 				System.out.println("Marks should be in proper format");
 			}while(flag3==false);
 		
-		System.out.println("Define your goals");
-		String goals = sc.next();
+			String goals;
+			do {
+				System.out.println("Define your goals");
+				goals = sc.next();
+				flag4=ApplicantServiceImpl.validateGoal(goals);
+				if(flag4==false)
+					System.out.println("Length should be less than 20");
+			} while (flag4==false);
 		System.out.println("Enter your Email Id");
 		String emailId = sc.next();
 		System.out.println("Please see below programs");
 		
 		programScheduled = appService.showProgramScheduled();
+		if(programScheduled.isEmpty()){
+			System.out.println("No Program Available");
+			continue;
+		}
 	    for (ProgramScheduledBean pBean : programScheduled) {
 			System.out.println(pBean);
 		}
@@ -101,26 +118,41 @@ public class ApplicantConsole {
 	    applicantBean.setGoals(goals);
 	    applicantBean.setEmailId(emailId);
 	    applicantBean.setScheduledProgramId(scheduledProgramId);
-	    format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-		dateOfInterview = LocalDate.parse("2012-12-12",format);
+		dateOfInterview = LocalDate.parse("2012-12-12");
 	    applicantBean.setDateOfInterview(dateOfInterview);
-	    int applicationId = 0;
 				applicationId  = appService.addDetail(applicantBean);
 	    System.out.println("Successfully applied. Your Application Id is : " + applicationId);
 	   break;
 	   
 		case 3:
-			System.out.println("Enter your Application Id");
-			applicationId = sc.nextInt();
-				applicantBean = appService.showStatus(applicationId);
-				LocalDate checkDoi = LocalDate.parse("2012-12-12",format);
-				if(applicantBean.getDateOfInterview().equals(checkDoi)){
-				System.out.println("Status : "+ applicantBean.getStatus());
+			do {
+				System.out.println("Enter your Application Id");
+				try {
+					applicationId = sc.nextInt();
+					applicantBean = appService.showStatus(applicationId);
+					if (applicantBean!=null) {
+						flag4=true;
+						LocalDate checkDoi = LocalDate.parse("2012-12-12");
+						if (applicantBean.getDateOfInterview().equals(checkDoi)) {
+							System.out.println("Status : "
+									+ applicantBean.getStatus());
+						} else {
+							System.out.println("Status : "
+									+ applicantBean.getStatus());
+							System.out.println("Date of Interview : "
+									+ applicantBean.getDateOfInterview());
+						}
+					}else{
+						flag4=true;
+						System.out.println("No data Found");
+					}
+				} catch (Exception e) {
+					flag4=false;
+					System.out.println("Only Interger allowed and length should be less than 10");
+					String dummy = sc.nextLine();
 				}
-				else{
-					System.out.println("Status : "+ applicantBean.getStatus());
-					System.out.println("Date of Interview : "+ applicantBean.getDateOfInterview());
-				}
+			} while (flag4==false);
+			
 			
 	}
 			}while(choice!=4);

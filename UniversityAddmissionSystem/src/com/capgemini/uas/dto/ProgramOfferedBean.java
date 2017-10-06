@@ -5,13 +5,13 @@ public class ProgramOfferedBean {
 	private String description;
 	private String applicantEligiblity;
 	private int duration;
-	private String degreeCertificate;
+	private int degreeCertificate;
 	
 	public ProgramOfferedBean() {
 	}
 	
 	public ProgramOfferedBean(String programName, String description,
-			String applicantEligiblity, int duration, String degreeCertificate) {
+			String applicantEligiblity, int duration, int degreeCertificate) {
 		super();
 		this.programName = programName;
 		this.description = description;
@@ -44,10 +44,10 @@ public class ProgramOfferedBean {
 	public void setDuration(int duration) {
 		this.duration = duration;
 	}
-	public String getDegreeCertificate() {
+	public int getDegreeCertificate() {
 		return degreeCertificate;
 	}
-	public void setDegreeCertificate(String degreeCertificate) {
+	public void setDegreeCertificate(int degreeCertificate) {
 		this.degreeCertificate = degreeCertificate;
 	}
 	@Override

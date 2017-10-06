@@ -24,6 +24,7 @@ public class MacConsole {
 
 	public void start() throws UniversityException {
 		int choice, applicationId;
+		boolean flag;
 		String scheduledProgramId,status,doi;
 		LocalDate dateOfInterview;
 			macService = new MacServiceImpl();
@@ -43,12 +44,25 @@ public class MacConsole {
 				List<ApplicationBean> applicantDetails = new ArrayList<ApplicationBean>();
 				switch (choice) {
 				case 1:
+					do{
 					System.out.println("Enter Program Scheduled Id");
 					scheduledProgramId = sc.next();
+					flag = MacServiceImpl.validateScheduledId(scheduledProgramId);
+					if(flag==false){
+						System.out.println("Scheduled ID should be number and less than 5 digit");
+					}else{
+						flag=true;
 					applicantDetails = macService.getApplicantsOnSchduledId(scheduledProgramId);
+					if(applicantDetails.isEmpty()){
+						System.out.println("Sorry No Data Found!!");
+					}else{
 					 for (ApplicationBean applicants : applicantDetails) {
 							System.out.println(applicants);
-						}
+							
+					 }
+					}
+					}
+					}while(flag==false);
 					break;
 
 				case 2:

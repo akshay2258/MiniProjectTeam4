@@ -10,6 +10,12 @@ import com.capgemini.uas.dto.UsersBean;
 import com.capgemini.uas.exception.UniversityException;
 
 public class MacServiceImpl implements IMacService {
+	
+	private static String patSchId = "[0-9]{1,5}";
+	
+	public static boolean validateScheduledId(String scheduledProgramId){
+		return scheduledProgramId.matches(patSchId);
+	}
 
 	private IMacDao macDao;
 	public MacServiceImpl() {
