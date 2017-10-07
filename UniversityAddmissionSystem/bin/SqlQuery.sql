@@ -5,7 +5,7 @@ applicant_eligibility varchar2(40) ,
 duration number, 
 degree_certificate_offered varchar2(10)
 );
-
+insert into PROGRAM_OFFERED values('BTech','ahha','sjdkd',23,'kasdjadk');
 create table program_Scheduled ( 
 Scheduled_program_id varchar2(5) primary key, 
 Program_Name references program_offered(Program_Name), 
@@ -14,7 +14,8 @@ start_date date,
 end_date date, 
 sessions_per_week number
 );
-
+insert into program_Scheduled values('1001','BTech','Mumbai',sysdate,sysdate,12)
+insert into applicants();
 create table applicants( 
 Application_id number primary key,
 full_name varchar2(20),
@@ -29,16 +30,16 @@ Date_Of_Interview date
 );
 
 create table participants(
-Roll_no varchar2(5) primary key, 
+Roll_no varchar2(5) primary key,
 email_id varchar2(20) unique, 
 Application_id references applicants(Application_id), 
 Scheduled_program_id varchar2(5)
 );
-
+Drop table Users;
 create table users (
-login_id varchar2(5) primary key, 
+login_id varchar2(5) Constraint users_pk primary key, 
 password varchar2(10),
-role varchar2(5) check (role IN ('mac','admin'))
+role varchar2(5) Constraint users_check check (role IN ('mac','admin'))
 );
 
 create sequence application_id_seq
@@ -60,3 +61,5 @@ insert into users values('abh11','abh11','admin');
 insert into users values('rah12','rah12','admin');
 insert into users values('ros13','ros13','admin');
 insert into users values('vip14','vip14','admin');
+
+SELECT * FROM program_Scheduled

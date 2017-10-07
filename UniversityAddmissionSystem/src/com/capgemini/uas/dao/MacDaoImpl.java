@@ -170,4 +170,44 @@ public class MacDaoImpl implements IMacDao {
 		
 	}
 
+	@Override
+	public List<String> getscheduleId() throws UniversityException {
+		ConnectionUtil util = new ConnectionUtil();
+		connect = util.getConnection();
+		Statement stmt;
+		List<String> idList=new ArrayList<>();
+		try {
+			stmt = connect.prepareStatement(IQueryMapper.GET_SCHEDULED_ID);
+			ResultSet rs = stmt.executeQuery(IQueryMapper.GET_SCHEDULED_ID);
+			while(rs.next()){
+				idList.add(rs.getString("Scheduled_program_id"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new UniversityException("Error in getting Scheduled Id "+e.getMessage());
+		}
+		System.out.println("in mac dao "+idList);		
+		return idList;
+	}
+
+	@Override
+	public List<Integer> getApplicantId() throws UniversityException {
+		ConnectionUtil util = new ConnectionUtil();
+		connect = util.getConnection();
+		Statement stmt;
+		List<Integer> idList=new ArrayList<>();
+		try {
+			stmt = connect.prepareStatement(IQueryMapper.GET_APPLICANT_ID);
+			ResultSet rs = stmt.executeQuery(IQueryMapper.GET_APPLICANT_ID);
+			while(rs.next()){
+				idList.add(rs.getInt("application_id"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new UniversityException("Error in getting application Id "+e.getMessage());
+		}
+		System.out.println("in mac dao  GET aPPLICATION ID"+idList);		
+		return idList;
+	}
+
 }

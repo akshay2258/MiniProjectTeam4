@@ -43,4 +43,13 @@ public class MacServiceImpl implements IMacService {
 			throws UniversityException {
 			macDao.updateApplicantDateOfInterview(applicationId, dateOfInterview);
 	}
+	@Override
+	public List<String> getscheduleId() throws UniversityException {
+		// TODO Auto-generated method stub
+		return macDao.getscheduleId();
+	}
+	@Override
+	public List<Integer> getApplicantId() throws UniversityException {
+		return macDao.getApplicantId();
+	}
 }

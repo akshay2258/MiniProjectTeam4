@@ -6,6 +6,7 @@ public interface IQueryMapper {
 	public static final String GET_USER="SELECT * FROM Users WHERE login_id=?";
 	
 	// for applicant table
+	public static final String GET_APPLICANT_ID = "SELECT application_id FROM applicants";
 	public static final String ADD_APPLICANT="INSERT INTO applicants values(?,?,?,?,?,?,?,?,?,?)";
 	public static final String CHECK_STATUS="SELECT * FROM applicants WHERE application_id=?";
 	public static final String LIST_APPLICANTS="SELECT * FROM applicants WHERE Scheduled_program_id=?";
@@ -30,7 +31,7 @@ public interface IQueryMapper {
 	public static final String UPDATE_PROGRAM_SCH_SESSION="UPDATE program_Scheduled SET sessions_per_week=? WHERE Scheduled_program_id=?";
 	public static final String INSERT_PROGRAM_SCHEDULED="INSERT program_Scheduled VALUES(?,?,?,?,?,?)";
 	public static final String DELETE_PROGRAM_SCHEDULED="DELETE program_Scheduled WHERE Scheduled_program_id=?";
-	
+	public static final String GET_SCHEDULED_ID = "SELECT Scheduled_program_id FROM program_Scheduled";
 	// for participant table
 	public static final String INSERT_PARTICIPANT="INSERT participants VALUES(?,?,?,?,?,?)";
 	

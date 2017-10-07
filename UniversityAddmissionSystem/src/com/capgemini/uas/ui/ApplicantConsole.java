@@ -60,12 +60,12 @@ public class ApplicantConsole {
 		dob = sc.next();
 		flag1=ApplicantServiceImpl.validateDateOfBirth(dob);
 		if(flag1==false)
-			System.out.println("Date of Birth should be entered in proper format");
-		
+			System.out.print("");
 		}while(flag1==false);
 		
-		format = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+		format = DateTimeFormatter.ofPattern("dd-MMM-yyyy");
 		dateOfBirth = LocalDate.parse(dob,format);
+		//System.out.println(dateOfBirth);
 		//Customer Phone Number
 		do
 		{
@@ -93,6 +93,10 @@ public class ApplicantConsole {
 			} while (flag4==false);
 		System.out.println("Enter your Email Id");
 		String emailId = sc.next();
+		while(!ApplicantServiceImpl.validateEmail(emailId)){
+			System.out.println("Enter your Correct Email Id");
+			emailId = sc.next();
+		}
 		System.out.println("Please see below programs");
 		
 		programScheduled = appService.showProgramScheduled();

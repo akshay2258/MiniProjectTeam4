@@ -45,51 +45,94 @@ public class MacConsole {
 				switch (choice) {
 				case 1:
 					do{
-					System.out.println("Enter Program Scheduled Id");
-					scheduledProgramId = sc.next();
-					flag = MacServiceImpl.validateScheduledId(scheduledProgramId);
-					if(flag==false){
-						System.out.println("Scheduled ID should be number and less than 5 digit");
-					}else{
-						flag=true;
-					applicantDetails = macService.getApplicantsOnSchduledId(scheduledProgramId);
-					if(applicantDetails.isEmpty()){
-						System.out.println("Sorry No Data Found!!");
-					}else{
-					 for (ApplicationBean applicants : applicantDetails) {
-							System.out.println(applicants);
-							
-					 }
-					}
-					}
-					}while(flag==false);
+						System.out.println("Enter Program Scheduled Id");
+						scheduledProgramId = sc.next();										
+						flag = MacServiceImpl.validateScheduledId(scheduledProgramId);
+						if(flag==false){
+							System.out.println("Scheduled ID should be number and less than 5 digit");
+						}else{
+							List<String> cList = macService.getscheduleId();
+							if(cList.contains(scheduledProgramId)){						
+								applicantDetails = macService.getApplicantsOnSchduledId(scheduledProgramId);
+								if(applicantDetails.isEmpty()){
+									System.out.println("Sorry No Data Found!!");
+								}else{
+									for (ApplicationBean applicants : applicantDetails) 
+										System.out.println(applicants);		
+								}
+							}else{
+								System.out.println("No such Id found");
+							}
+						}
+						System.out.println("To continue press 1 otherwise any other key");
+						if("1".equals(sc.next())){
+							flag=true;	
+						}else	
+							flag=false;
+					}while(flag);
 					break;
-
 				case 2:
-					System.out.println("Enter Program Scheduled Id");
-					scheduledProgramId = sc.next();
-					applicantDetails = macService.getApplicantsAfterInterviewOnId(scheduledProgramId);
-					for (ApplicationBean applicants : applicantDetails) {
-						System.out.println(applicants);
-					}
+					do{
+						System.out.println("Enter Program Scheduled Id");
+						scheduledProgramId = sc.next();										
+						flag = MacServiceImpl.validateScheduledId(scheduledProgramId);
+						if(flag==false){
+							System.out.println("Scheduled ID should be number and less than 5 digit");
+						}else{
+							List<String> cList = macService.getscheduleId();
+							if(cList.contains(scheduledProgramId)){						
+								applicantDetails = macService.getApplicantsAfterInterviewOnId(scheduledProgramId);
+								if(applicantDetails.isEmpty()){
+									System.out.println("Sorry No Data Found!!");
+								}else{
+									for (ApplicationBean applicants : applicantDetails) 
+										System.out.println(applicants);		
+								}
+							}else{
+								System.out.println("No such Id found");
+							}
+						}
+						System.out.println("To continue press 1 otherwise any other key");
+						if("1".equals(sc.next())){
+							flag=true;	
+						}else	
+							flag=false;
+					}while(flag);
 					break;
 					
 				case 3:
-					System.out.println("Enter Applicant Id");
-					applicationId = sc.nextInt();
-					System.out.println("Enter Updated Status");
-					status = sc.next();
-					status = macService.updateApplicantStatus(applicationId, status);
-					System.out.println(status);
-					if(status.equals("accepted")){
-						System.out.println("Please Enter Date of Interview of Accepted Applicant");
-						doi = sc.next();
-						format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-						dateOfInterview = LocalDate.parse(doi,format);
-						macService.updateApplicantDateOfInterview(applicationId, dateOfInterview);
-					} 
+					do{
+						System.out.println("Enter Applicant Id");
+						String applId = sc.next();
+						flag = MacServiceImpl.validateScheduledId(applId);  //validateScheduledId is validating number 
+						if(flag==false){
+							System.out.println("Aplcation ID should be number and less than 5 digit");
+						}else{
+							applicationId=Integer.parseInt(applId);
+							List<Integer> idList =macService.getApplicantId();
+							if(idList.contains(applicationId)){
+								System.out.println("Enter Updated Status");
+								status = sc.next();
+								status = macService.updateApplicantStatus(applicationId, status);
+								System.out.println(status);
+								if(status.equals("accepted")){
+									System.out.println("Please Enter Date of Interview of Accepted Applicant");
+									doi = sc.next();
+									format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+									dateOfInterview = LocalDate.parse(doi,format);
+									macService.updateApplicantDateOfInterview(applicationId, dateOfInterview);
+								} 
+							}else{
+								System.out.println("No such Application id");
+							}
+						}
+						System.out.println("To continue press 1 otherwise any other key");
+						if("1".equals(sc.next())){
+							flag=true;	
+						}else	
+							flag=false;
+					}while(flag);
 					break;
-				
 				case 4:
 					System.out.println("Thanks For Visiting..");
 					break;
